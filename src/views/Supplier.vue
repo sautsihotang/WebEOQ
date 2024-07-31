@@ -20,7 +20,10 @@ const listSupplier = ref(null);
 const supplier = ref({});
 const selectSupplier = ref(null);
 const loadData = ref(false);
-const newSupplier = ref(null);
+const nama = ref(null);
+const perusahaan = ref(null);
+const kontak = ref(null);
+const alamat = ref(null);
 
 const createSupplierDialog = ref(false);
 const deleteSupplierDialog = ref(false);
@@ -44,14 +47,35 @@ const getsuppliers = async () => {
         loadData.value = false;
     } catch (error) {
         console.error('Error fetching supplier Combinations:', error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch suppliers', life: 2000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch suppliers', life: 3000 });
         loadData.value = false
     }
 };
 
+const confirmDeleteSupplier = (data) => {
+    supplier.value = data
+    deleteSupplierDialog.value = true;
+}
 
+const deleteSupplier = async () => {
+    console.log("id supplier : ", supplier.value.id)
 
-const opennewSupplier = () => {
+    try {
+        const response = await axiosInstance.delete(`/supplier?id=${supplier.value.id}`);
+        console.log("Response Delete : ", response.data.message);
+
+        deleteSupplierDialog.value = false;
+        toast.add({ severity: 'success', summary: 'Success', detail: response.data.message +' ' +supplier.value.nama, life: 3000 });
+        getsuppliers()
+    } catch (error) {
+        console.log("Error Delete Supplier ", Error);
+        deleteSupplier.value = false;
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed Delete Supplier ' +supplier.value.nama, life: 3000 });
+    }
+
+}
+
+const createSupplier = () => {
     supplier.value = {};
     createSupplierDialog.value = true;
 };
@@ -73,7 +97,7 @@ const initFilters = () => {
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
-                            <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="opennewSupplier" />
+                            <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="createSupplier" />
                         </div>
                     </template>
                 </Toolbar>
@@ -123,8 +147,8 @@ const initFilters = () => {
                     </Column>
                     <Column headerStyle="min-width:10rem;">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="mr-2 p-button-warning mr-2" severity="success" rounded @click="editblock(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="mt-2" severity="warning" rounded @click="confirmDeleteBlock(slotProps.data)" />
+                            <Button icon="pi pi-pencil" class="mr-2 p-button-warning mr-2" severity="success" rounded @click="editSupplier(slotProps.data)" />
+                            <Button icon="pi pi-trash" class="mt-2" severity="danger" rounded @click="confirmDeleteSupplier(slotProps.data)" />
                         </template>
                     </Column>
                 </DataTable>
@@ -132,31 +156,43 @@ const initFilters = () => {
                 <Dialog v-model:visible="loadData" :style="{ width: '900px' }" header="Loading..." :modal="true" class="p-fluid">
                     <div class="spinner-container">
                         <div class="spinner"></div>
-                        <p>Sedang load data Block Combinations</p>
+                        <p>Sedang load data suppliers</p>
                     </div>
                 </Dialog>
 
                 <Dialog v-model:visible="deleteSupplierDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                        <span v-if="block"
-                            >Are you sure you want to delete <b>{{ block.combination }}</b
+                        <span v-if="supplier"
+                            >Are you sure you want to delete supplier <b>{{ supplier.nama }}</b
                             >?</span
                         >
                     </div>
                     <template #footer>
                         <Button label="No" icon="pi pi-times" text @click="deleteSupplierDialog= false" />
-                        <Button label="Yes" icon="pi pi-check" text @click="deleteBlock" />
+                        <Button label="Yes" icon="pi pi-check" text @click="deleteSupplier" />
                     </template>
                 </Dialog>
 
-                <Dialog v-model:visible="createSupplierDialog" :style="{ width: '450px' }" header="Create Block Combinnation" :modal="true" class="p-fluid">
+                <Dialog v-model:visible="createSupplierDialog" :style="{ width: '450px' }" header="Create New Supplier" :modal="true" class="p-fluid">
                     <div class="field">
-                        <label for="description">New Block Combination</label>
-                        <InputText id="block" type="text" required="true" v-model="newSupplier" maxlength="3" />
+                        <label for="description">Nama</label>
+                        <InputText id="nama" type="text" required="true" v-model="nama" placeholder="Nama Supplier" />
+                    </div>
+                    <div class="field">
+                        <label for="description">Perusahaan</label>
+                        <InputText id="perusahaan" type="text" required="true" v-model="perusahaan" placeholder="Perusahaan Supplier" />
+                    </div>
+                    <div class="field">
+                        <label for="description">kontak</label>
+                        <InputText id="kontak" type="text" required="true" v-model="kontak"  placeholder="Kontak Supplier"/>
+                    </div>
+                    <div class="field">
+                        <label for="description">Alamat</label>
+                        <InputText id="alamat" type="text" required="true" v-model="alamat" placeholder="Alamat Supplier" />
                     </div>
                     <template #footer>
-                        <Button label="Create" icon="pi pi-check" text="" @click="createBlockCombination" />
+                        <Button label="Create" icon="pi pi-check" text="" @click="createSupplier" />
                     </template>
                 </Dialog>
             </div>
