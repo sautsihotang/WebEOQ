@@ -8,7 +8,6 @@ const toast = useToast();
 
 const baseURL = import.meta.env.VITE_BASE_URL_SERVICE;
 
-
 const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
@@ -20,12 +19,14 @@ const listSupplier = ref(null);
 const supplier = ref({});
 const selectSupplier = ref(null);
 const loadData = ref(false);
+const id = ref(null);
 const nama = ref(null);
 const perusahaan = ref(null);
 const kontak = ref(null);
 const alamat = ref(null);
 
 const createSupplierDialog = ref(false);
+const updateSupplierDialog = ref(false);
 const deleteSupplierDialog = ref(false);
 const dt = ref(null);
 const filters = ref({});
@@ -43,44 +44,112 @@ const getsuppliers = async () => {
         loadData.value = true;
         const response = await axiosInstance.get(`/suppliers`);
         listSupplier.value = response.data.supplier;
-         console.log("Response data:", response.data.supplier);
+        console.log("Response data:", response.data.supplier);
         loadData.value = false;
     } catch (error) {
-        console.error('Error fetching supplier Combinations:', error);
+        console.error('Error fetching supplier :', error);
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch suppliers', life: 3000 });
-        loadData.value = false
+        loadData.value = false;
     }
 };
 
 const confirmDeleteSupplier = (data) => {
-    supplier.value = data
+    supplier.value = data;
     deleteSupplierDialog.value = true;
-}
+};
 
 const deleteSupplier = async () => {
-    console.log("id supplier : ", supplier.value.id)
+    console.log("id supplier: ", supplier.value.id);
 
     try {
         const response = await axiosInstance.delete(`/supplier?id=${supplier.value.id}`);
-        console.log("Response Delete : ", response.data.message);
+        console.log("Response Delete: ", response.data.message);
 
         deleteSupplierDialog.value = false;
-        toast.add({ severity: 'success', summary: 'Success', detail: response.data.message +' ' +supplier.value.nama, life: 3000 });
-        getsuppliers()
+        toast.add({ severity: 'success', summary: 'Success', detail: response.data.message + ' ' + supplier.value.nama, life: 3000 });
+        getsuppliers();
     } catch (error) {
-        console.log("Error Delete Supplier ", Error);
-        deleteSupplier.value = false;
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed Delete Supplier ' +supplier.value.nama, life: 3000 });
+        console.log("Error Delete Supplier: ", error);
+        deleteSupplierDialog.value = false;
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete supplier ' + supplier.value.nama, life: 3000 });
     }
+};
 
-}
-
-const createSupplier = () => {
+const openNewSupplier = () => {
     supplier.value = {};
     createSupplierDialog.value = true;
 };
 
+const createSupplier = async () => {
+    try {
+        const response = await axiosInstance.post(`/supplier`, {
+            nama: nama.value,
+            perusahaan: perusahaan.value,
+            kontak: kontak.value,
+            alamat: alamat.value
+        });
+        console.log("Supplier created: ", response.data);
+        toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
+        nama.value = '';
+        perusahaan.value = '';
+        kontak.value = '';
+        alamat.value = '';
 
+        createSupplierDialog.value = false;
+        getsuppliers();
+    } catch (error) {
+        console.log("Error creating supplier: ", error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to create supplier', life: 3000 });
+        createSupplierDialog.value = false;
+    }
+};
+
+const editSupplier = (editSupplier) => {
+    supplier.value = [{...editSupplier}];
+    updateSupplierDialog.value = true;
+
+    // Populate form fields with existing supplier data
+    id.value = supplier.value[0].id;
+    nama.value = supplier.value[0].nama;
+    perusahaan.value = supplier.value[0].perusahaan;
+    kontak.value = supplier.value[0].kontak;
+    alamat.value = supplier.value[0].alamat;
+};
+
+const saveSupplier = async () => {
+    const isDataChanged =
+        nama.value !== supplier.value[0].nama ||
+        perusahaan.value !== supplier.value[0].perusahaan ||
+        kontak.value !== supplier.value[0].kontak ||
+        alamat.value !== supplier.value[0].alamat;
+
+    if (isDataChanged) {
+        try {
+            const response = await axiosInstance.put(`/supplier`, {
+                id: id.value,
+                nama: nama.value,
+                perusahaan: perusahaan.value,
+                kontak: kontak.value,
+                alamat: alamat.value
+            });
+            console.log("Supplier updated: ", response.data);
+            toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
+            updateSupplierDialog.value = false;
+            getsuppliers();
+        } catch (error) {
+            console.log("Error updating supplier: ", error);
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update supplier', life: 3000 });
+            updateSupplierDialog.value = false;
+        }
+    } else {
+        updateSupplierDialog.value = false;
+    }
+};
+
+
+const hideDialogEdit = () => {
+    updateSupplierDialog.value = false;
+};
 
 const initFilters = () => {
     filters.value = {
@@ -88,6 +157,7 @@ const initFilters = () => {
     };
 };
 </script>
+
 
 <template>
     <div class="grid">
@@ -97,7 +167,7 @@ const initFilters = () => {
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
-                            <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="createSupplier" />
+                            <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="openNewSupplier" />
                         </div>
                     </template>
                 </Toolbar>
@@ -192,10 +262,41 @@ const initFilters = () => {
                         <InputText id="alamat" type="text" required="true" v-model="alamat" placeholder="Alamat Supplier" />
                     </div>
                     <template #footer>
-                        <Button label="Create" icon="pi pi-check" text="" @click="createSupplier" />
+                        <!-- <Button label="Create" icon="pi pi-check" text="" @click="createSupplier" /> -->
+                        <Button label="Create" icon="pi pi-check" class="p-button-outlined p-button-success mr-2 mb-2" @click="createSupplier" />
                     </template>
                 </Dialog>
-            </div>
+
+                <Dialog v-model:visible="updateSupplierDialog" :style="{ width: '450px' }" header="Update Supplier" :modal="true" class="p-fluid"  >
+
+                    <div class="card">
+                        <div class="field">
+                            <label for="nama">Nama</label>
+                            <InputText id="nama" v-model="nama" required="true" autofocus  />
+                        </div>
+                        <div class="field">
+                            <label for="perusahaan">Perusahaan</label>
+                            <InputText id="perusahaan" v-model="perusahaan" required="true" autofocus  />
+                        </div>
+                        <div class="field">
+                            <label for="kontak">Kontak</label>
+                            <InputText id="kontak" v-model="kontak" required="true" autofocus  />
+                        </div>
+                        <div class="field">
+                            <label for="alamat">Alamat</label>
+                            <InputText id="alamat" v-model="alamat" required="true" autofocus  />
+                        </div>
+                        <div class="formgrid grid">
+                            <div class="field col">
+                                <Button label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-danger mr-2 mb-2" @click="hideDialogEdit" />
+                            </div>
+                            <div class="field col">
+                                <Button label="Update" icon="pi pi-check" class="p-button-outlined p-button-success mr-2 mb-2" @click="saveSupplier" />
+                            </div>
+                        </div>
+                    </div>
+                </Dialog>
+           </div>
         </div>
     </div>
 </template>
