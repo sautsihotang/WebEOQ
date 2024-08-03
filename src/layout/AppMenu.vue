@@ -8,12 +8,28 @@ const model = ref([
         label: 'Home',
         items: [
             { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
-            { label: 'Supplier', icon: 'pi pi-fw pi-home', to: '/supplier' },
-            { label: 'Barang', icon: 'pi pi-fw pi-home', to: '/barang' },
             { label: 'User', icon: 'pi pi-fw pi-home', to: '/user' },
-            { label: 'Penyimpanan', icon: 'pi pi-fw pi-home', to: '/penyimpanan' },
-            { label: 'Pemesanan', icon: 'pi pi-fw pi-home', to: '/pemesanan' }
         ],
+    },
+    {
+        label: 'Manage Toko',
+        items: [
+            { label: 'Barang', icon: 'pi pi-fw pi-home', to: '/barang' },
+            { label: 'Pemesanan', icon: 'pi pi-fw pi-home', to: '/pemesanan' },
+            { label: 'Penjualan', icon: 'pi pi-fw pi-home', to: '/penjualan' },
+            { label: 'Penyimpanan', icon: 'pi pi-fw pi-home', to: '/penyimpanan' },
+            { label: 'Supplier', icon: 'pi pi-fw pi-home', to: '/supplier' },
+        ]
+    },
+    {
+        label: 'EOQ',
+        items: [
+            { label: 'Barang', icon: 'pi pi-fw pi-home', to: '/barang' },
+            { label: 'Pemesanan', icon: 'pi pi-fw pi-home', to: '/pemesanan' },
+            { label: 'Penjualan', icon: 'pi pi-fw pi-home', to: '/penjualan' },
+            { label: 'Penyimpanan', icon: 'pi pi-fw pi-home', to: '/penyimpanan' },
+            { label: 'Supplier', icon: 'pi pi-fw pi-home', to: '/supplier' },
+        ]
     },
     {
         label: 'UI Components',

@@ -109,14 +109,15 @@ const createPemesanan = async () => {
         console.log("Pemesanan created: ", response.data);
         toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
          // Reset values
-         id_user.value = '';
-        id_barang.value = '';
+         id_user.value = null;
+        id_barang.value = null;
         kuantitas.value = 0;
         harga_satuan.value = 0;
         biaya_telepon.value = 0;
         biaya_adm.value = 0;
         biaya_transportasi.value = 0;
         tanggal_pemesanan.value = null;
+        barang.value = null;
 
         createPemesananDialog.value = false;
         getPemesanans();
@@ -131,10 +132,11 @@ const editPemesanan = (editPesan) => {
     pemesanan.value = [{...editPesan}];
     updatePemesananDialog.value = true;
 
+    getBarangs();
+    
     // Populate form fields with existing pemesanan data
     id.value = pemesanan.value[0].id;
     id_user.value = pemesanan.value[0].id_user;
-    id_barang.value = pemesanan.value[0].id_barang;
     kuantitas.value = pemesanan.value[0].kuantitas;
     harga_satuan.value = pemesanan.value[0].harga_satuan;
     total_harga.value = pemesanan.value[0].total_harga;
@@ -143,12 +145,14 @@ const editPemesanan = (editPesan) => {
     biaya_transportasi.value = pemesanan.value[0].biaya_transportasi;
     total_biaya_pemesanan.value = pemesanan.value[0].total_biaya_pemesanan;
     tanggal_pemesanan.value = pemesanan.value[0].tanggal_pemesanan;
+    barangIdEdit.value = pemesanan.value[0].id_barang;
 };
 
 const savePemesanan = async () => {
     const isDataChanged =
         id_user.value !== pemesanan.value[0].id_user ||
-        id_barang.value !== pemesanan.value[0].id_barang ||
+        // id_barang.value !== pemesanan.value[0].id_barang ||
+        barangIdEdit.value !== barang.value.id || 
         kuantitas.value !== pemesanan.value[0].kuantitas ||
         harga_satuan.value !== pemesanan.value[0].harga_satuan ||
         total_harga.value !== pemesanan.value[0].total_harga ||
@@ -163,7 +167,7 @@ const savePemesanan = async () => {
             const response = await axiosInstance.put(`/pemesanan`, {
                 id: id.value,
                 id_user: id_user.value,
-                id_barang: id_barang.value,
+                id_barang: barang.value.id,
                 kuantitas: kuantitas.value,
                 harga_satuan: harga_satuan.value,
                 total_harga: total_harga.value,
@@ -171,7 +175,7 @@ const savePemesanan = async () => {
                 biaya_adm: biaya_adm.value,
                 biaya_transportasi: biaya_transportasi.value,
                 total_biaya_pemesanan: total_biaya_pemesanan.value,
-                tanggal_pemesanan: tanggal_pemesanan
+                tanggal_pemesanan: tanggal_pemesanan.value
             });
             console.log("Pemesanan updated: ", response.data);
             toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
@@ -279,7 +283,7 @@ const initFilters = () => {
                     </Column>
                     <Column field="kuantitas" header="Kuantitas" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
-                            {{ "Rp."+slotProps.data.kuantitas }}
+                            {{ slotProps.data.kuantitas }}
                         </template>
                     </Column>
                     <Column field="harga_satuan" header="Harga Satuan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
@@ -387,20 +391,35 @@ const initFilters = () => {
                 </Dialog>
 
                 <Dialog v-model:visible="updatePemesananDialog" :style="{ width: '450px' }" header="Update Pemesanan" :modal="true" class="p-fluid"  >
-
+                    <div class="field">
+                        <label for="supplier">Pilih Barang</label>
+                        <AutoComplete placeholder="Search barang..." id="dd" :dropdown="true" v-model="barang" :suggestions="autoFilteredValueBarangs" @complete="searchBarangs($event)" field="nama_barang" />
+                    </div>
+                    <div class="field">
+                        <label for="kuantitas">Kuantitas (qty)</label>
+                        <InputText id="kuantitas" type="number" required="true" v-model="kuantitas" placeholder="jumlah barang" />
+                    </div>
+                    <div class="field">
+                        <label for="harga_satuan">Harga Satuan  (Rp.)</label>
+                        <InputText id="harga_satuan" type="number" required="true" v-model="harga_satuan" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <div class="field">
+                        <label for="biaya_telepon">Biaya Telepon  (Rp.)</label>
+                        <InputText id="biaya_telepon" type="number" required="true" v-model="biaya_telepon" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <div class="field">
+                        <label for="biaya_adm">Biaya Adm (Rp.)</label>
+                        <InputText id="biaya_adm" type="number" required="true" v-model="biaya_adm" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <div class="field">
+                        <label for="biaya_transportasi">Biaya Transportasi (Rp.)</label>
+                        <InputText id="biaya_transportasi" type="number" required="true" v-model="biaya_transportasi" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <div class="field">
+                        <label for="tanggal_pemesanan">Tanggal</label>
+                        <Calendar inputId="tanggal_pemesanan" v-model="tanggal_pemesanan"></Calendar>
+                    </div>
                     <div class="card">
-                        <div class="field">
-                        <label for="description">Jenis Biaya</label>
-                        <InputText id="jenis" type="text" required="true" v-model="jenis" placeholder="Jenis Biaya" />
-                    </div>
-                    <div class="field">
-                        <label for="description">Biaya  (Rp.)</label>
-                        <InputText id="biaya" type="number" required="true" v-model="biaya_" placeholder="Masukkan dalam Rupiah" />
-                    </div>
-                    <div class="field">
-                        <label for="tanggal">Tanggal</label>
-                        <Calendar inputId="tanggal" v-model="tanggal_"></Calendar>
-                    </div>
                         <div class="formgrid grid">
                             <div class="field col">
                                 <Button label="Cancel" icon="pi pi-times" class="p-button-outlined p-button-danger mr-2 mb-2" @click="hideDialogEdit" />
