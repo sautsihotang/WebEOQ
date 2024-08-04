@@ -14,6 +14,11 @@ const router = createRouter({
                     component: () => import('@/views/Dashboard.vue')
                 },
                 {
+                    path: '/eoq',
+                    name: 'eoq',
+                    component: () => import('@/views/Eoq.vue')
+                },
+                {
                     path: '/supplier',
                     name: 'supplier',
                     component: () => import('@/views/Supplier.vue')
