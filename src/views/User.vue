@@ -27,6 +27,8 @@ const posisi = ref(null);
 const hp = ref(null);
 const alamat = ref(null);
 
+const isAdmin = ref(false);
+
 const createUserDialog = ref(false);
 const updateUserDialog = ref(false);
 const deleteUserDialog = ref(false);
@@ -37,6 +39,10 @@ onBeforeMount(() => {
     initFilters();
 });
 onMounted(() => {
+    const userAdmin = localStorage.getItem('username');
+    if (userAdmin === 'admin') {
+        isAdmin.value = true;
+    }
     getUsers();
 });
 
@@ -172,14 +178,17 @@ const initFilters = () => {
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5 class="font-bold">User</h5>
-                <Toolbar class="mb-4">
-                    <template v-slot:start>
-                        <div class="my-2">
-                            <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="openNewUser" />
-                        </div>
-                    </template>
-                </Toolbar>
+                 <!-- Conditionally render h5 and toolbar -->
+                 <template v-if="isAdmin">
+                    <h5 class="font-bold">User</h5>
+                    <Toolbar class="mb-4">
+                        <template v-slot:start>
+                            <div class="my-2">
+                                <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="openNewUser" />
+                            </div>
+                        </template>
+                    </Toolbar>
+                </template>
 
                 <DataTable
                     ref="dt"
@@ -203,7 +212,7 @@ const initFilters = () => {
                         </div>
                     </template>
 
-                    <Column selectionMode="multiple" headerStyle="width: 10rem"></Column>
+                    <!-- <Column selectionMode="multiple" headerStyle="width: 10rem"></Column> -->
                     <Column field="nama" header="Nama" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama }}
@@ -229,12 +238,15 @@ const initFilters = () => {
                             {{ slotProps.data.alamat }}
                         </template>
                     </Column>
-                    <Column headerStyle="min-width:10rem;">
-                        <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="mr-2 p-button-warning mr-2" severity="success" rounded @click="editUser(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="mt-2" severity="danger" rounded @click="confirmDeleteUser(slotProps.data)" />
-                        </template>
-                    </Column>
+                    <!-- Conditionally render edit and delete columns -->
+                    <template v-if="isAdmin">
+                        <Column headerStyle="min-width:10rem;">
+                            <template #body="slotProps">
+                                <Button icon="pi pi-pencil" class="mr-2 p-button-warning mr-2" severity="success" rounded @click="editUser(slotProps.data)" />
+                                <Button icon="pi pi-trash" class="mt-2" severity="danger" rounded @click="confirmDeleteUser(slotProps.data)" />
+                            </template>
+                        </Column>
+                    </template>
                 </DataTable>
 
                 <Dialog v-model:visible="loadData" :style="{ width: '900px' }" header="Loading..." :modal="true" class="p-fluid">
