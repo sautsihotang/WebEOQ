@@ -8,7 +8,6 @@ const model = ref([
         label: 'Home',
         items: [
             { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
-            { label: 'User', icon: 'pi pi-fw pi-user', to: '/user' },
         ],
     },
     {
@@ -29,6 +28,12 @@ const model = ref([
             // { label: 'Penjualan', icon: 'pi pi-fw pi-home', to: '/penjualan' },
             // { label: 'Penyimpanan', icon: 'pi pi-fw pi-home', to: '/penyimpanan' },
             // { label: 'Supplier', icon: 'pi pi-fw pi-home', to: '/supplier' },
+        ]
+    },
+    {
+        label: 'User',
+        items: [
+            { label: 'User', icon: 'pi pi-fw pi-user', to: '/user' },
         ]
     },
     // {
