@@ -199,12 +199,12 @@ const initFilters = () => {
                             {{ slotProps.data.jenis }}
                         </template>
                     </Column>
-                    <Column field="biaya" header="Biaya Penyimpanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="biaya_penyimpanan" header="Biaya Penyimpanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ "Rp."+slotProps.data.biaya_penyimpanan }}
                         </template>
                     </Column>
-                    <Column field="tanggal" header="Tanggal Penyimpanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="tanggal_penyimpanan" header="Tanggal Penyimpanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ formatDate(slotProps.data.tanggal_penyimpanan) }}
                         </template>

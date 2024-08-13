@@ -4,6 +4,7 @@ import { ref, onMounted, onBeforeMount } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import axios from 'axios';
 import moment from 'moment';
+import { utils, writeFile } from 'xlsx';
 
 const toast = useToast();
 
@@ -196,6 +197,27 @@ const hideDialogEdit = () => {
     updatePenjualanDialog.value = false;
 };
 
+const exportData = () => {
+    if (!listEoq.value || listEoq.value.length === 0) {
+        toast.add({ severity: 'error', summary: 'Error', detail: 'No data available to export', life: 3000 });
+        return;
+    }
+
+    const formattedData = listEoq.value.map(item => ({
+        'Nama Barang': item.nama_barang,
+        'Nilai EOq': item.nilai_eoq,
+        'Periode': item.periode,
+        'Tanggal Perhitungan': formatDate(item.tanggal_perhitungan),
+    }));
+
+    const ws = utils.json_to_sheet(formattedData);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Eoq Data');
+
+    const currentDate = moment().format('YYYY-MM-DD'); // Format current date
+    writeFile(wb, `Eoq_data_${currentDate}.xlsx`);
+};
+
 const initFilters = () => {
     filters.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
@@ -213,6 +235,11 @@ const initFilters = () => {
                     <template v-slot:start>
                         <div class="my-2">
                             <Button label="Create New " icon="pi pi-plus" class="mr-2" severity="success" @click="openNewEoq" />
+                        </div>
+                    </template>
+                    <template v-slot:end>
+                        <div class="my-2">
+                            <Button label="Export " icon="pi pi-file-export" class="mr-2" severity="warning" @click="exportData" />
                         </div>
                     </template>
                 </Toolbar>
@@ -245,7 +272,7 @@ const initFilters = () => {
                             {{ slotProps.data.id_user }}
                         </template>
                     </Column> -->
-                    <Column field="barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="nama_barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama_barang }}
                         </template>
@@ -255,7 +282,7 @@ const initFilters = () => {
                             {{ slotProps.data.nilai_eoq }}
                         </template>
                     </Column>
-                    <Column field="Periode" header="Periode" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="periode" header="Periode" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.periode }}
                         </template>

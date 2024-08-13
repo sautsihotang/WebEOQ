@@ -125,7 +125,7 @@ const logout = () => {
 <template>
     <div class="layout-topbar">
         <router-link to="/" class="layout-topbar-logo">
-            <img :src="logoUrl" alt="logo" />
+            <img src="/demo/images/login/eoq.png" alt="logo"  />
             <span>Aplikasi EOQ</span>
         </router-link>
 

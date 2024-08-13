@@ -14,6 +14,7 @@ const model = ref([
         label: 'Manage Toko',
         items: [
             { label: 'Barang', icon: 'pi pi-fw pi-th-large', to: '/barang' },
+            { label: 'Stock Barang', icon: 'pi pi-fw pi-sitemap', to: '/stock' },
             { label: 'Pemesanan', icon: 'pi pi-fw pi-shopping-cart', to: '/pemesanan' },
             { label: 'Penjualan', icon: 'pi pi-fw pi-shopping-bag', to: '/penjualan' },
             { label: 'Penyimpanan', icon: 'pi pi-fw pi-shield', to: '/penyimpanan' },

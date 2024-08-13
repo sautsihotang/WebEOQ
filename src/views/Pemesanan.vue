@@ -276,7 +276,7 @@ const initFilters = () => {
                             {{ slotProps.data.id_user }}
                         </template>
                     </Column> -->
-                    <Column field="barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="barang_nama" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.barang_nama }}
                         </template>
@@ -321,7 +321,7 @@ const initFilters = () => {
                             {{ formatDate(slotProps.data.tanggal_pemesanan) }}
                         </template>
                     </Column>
-                    <Column field="supplier" header="Supplier Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="supplier_nama" header="Supplier Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_nama }}
                         </template>

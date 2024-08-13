@@ -218,17 +218,17 @@ const initFilters = () => {
                     </template>
 
                     <Column selectionMode="multiple" headerStyle="width: 10rem"></Column>
-                    <Column field="barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="nama_barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama_barang }}
                         </template>
                     </Column>
-                    <Column field="supplier" header="Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="supplier_nama" header="Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_nama }}
                         </template>
                     </Column>
-                    <Column field="perusahaan" header="Perusahaan Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="supplier_perusahaan" header="Perusahaan Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_perusahaan }}
                         </template>
