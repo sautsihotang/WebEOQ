@@ -260,7 +260,7 @@ const initFilters = () => {
                     </Column>
                     <Column field="kuantitas" header="Kuantitas" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
-                            {{ "Rp."+slotProps.data.kuantitas }}
+                            {{ slotProps.data.kuantitas }}
                         </template>
                     </Column>
                     <Column field="harga_satuan" header="Harga Satuan" :sortable="true" headerStyle="width:15%; min-width:10rem;">

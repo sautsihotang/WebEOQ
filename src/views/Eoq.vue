@@ -290,7 +290,7 @@ const initFilters = () => {
                             {{ slotProps.data.s }}
                         </template>
                     </Column>
-                    <Column field="h" header="-	Biaya penyimpanan per unit (H)" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="h" header="Biaya penyimpanan per unit (H)" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.h }}
                         </template>
