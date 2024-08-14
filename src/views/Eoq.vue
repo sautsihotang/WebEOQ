@@ -205,7 +205,10 @@ const exportData = () => {
 
     const formattedData = listEoq.value.map(item => ({
         'Nama Barang': item.nama_barang,
-        'Nilai EOq': item.nilai_eoq,
+        'Kebutuhan Bahan Baku (D)': item.d,
+        'Biaya pemesanan sekali pesan (S)': item.s,
+        'Biaya penyimpanan per unit (H)': item.h,
+        'Nilai Eoq': item.nilai_eoq,
         'Periode': item.periode,
         'Tanggal Perhitungan': formatDate(item.tanggal_perhitungan),
     }));
@@ -277,7 +280,22 @@ const initFilters = () => {
                             {{ slotProps.data.nama_barang }}
                         </template>
                     </Column>
-                    <Column field="nilai_eoq" header="Nilai EOq" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="d" header="Kebutuhan Bahan Baku (D)" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                        <template #body="slotProps">
+                            {{ slotProps.data.d }}
+                        </template>
+                    </Column>
+                    <Column field="s" header="Biaya pemesanan sekali pesan (S)" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                        <template #body="slotProps">
+                            {{ slotProps.data.s }}
+                        </template>
+                    </Column>
+                    <Column field="h" header="-	Biaya penyimpanan per unit (H)" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                        <template #body="slotProps">
+                            {{ slotProps.data.h }}
+                        </template>
+                    </Column>
+                    <Column field="nilai_eoq" header="Nilai Eoq" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nilai_eoq }}
                         </template>
