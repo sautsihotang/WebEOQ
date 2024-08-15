@@ -296,7 +296,12 @@ const initFilters = () => {
                             {{ "Rp."+slotProps.data.total_harga }}
                         </template>
                     </Column>
-                    <Column field="biaya_telepon" header="Biaya Telepon" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="biaya_telepon" header="Biaya Pemesanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                        <template #body="slotProps">
+                            {{ "Rp."+slotProps.data.biaya_telepon }}
+                        </template>
+                    </Column>
+                    <!-- <Column field="biaya_telepon" header="Biaya Telepon" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ "Rp."+slotProps.data.biaya_telepon }}
                         </template>
@@ -315,7 +320,7 @@ const initFilters = () => {
                         <template #body="slotProps">
                             {{ "Rp."+slotProps.data.total_biaya_pemesanan }}
                         </template>
-                    </Column>
+                    </Column> -->
                     <Column field="tanggal_pemesanan" header="Tanggal Pemesanan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ formatDate(slotProps.data.tanggal_pemesanan) }}
@@ -369,6 +374,10 @@ const initFilters = () => {
                         <InputText id="harga_satuan" type="number" required="true" v-model="harga_satuan" placeholder="Masukkan dalam Rupiah" />
                     </div>
                     <div class="field">
+                        <label for="biaya_telepon">Biaya Pemesanan  (Rp.)</label>
+                        <InputText id="biaya_telepon" type="number" required="true" v-model="biaya_telepon" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <!-- <div class="field">
                         <label for="biaya_telepon">Biaya Telepon  (Rp.)</label>
                         <InputText id="biaya_telepon" type="number" required="true" v-model="biaya_telepon" placeholder="Masukkan dalam Rupiah" />
                     </div>
@@ -379,7 +388,7 @@ const initFilters = () => {
                     <div class="field">
                         <label for="biaya_transportasi">Biaya Transportasi (Rp.)</label>
                         <InputText id="biaya_transportasi" type="number" required="true" v-model="biaya_transportasi" placeholder="Masukkan dalam Rupiah" />
-                    </div>
+                    </div> -->
                     <div class="field">
                         <label for="tanggal_pemesanan">Tanggal</label>
                         <Calendar inputId="tanggal_pemesanan" v-model="tanggal_pemesanan"></Calendar>
@@ -404,6 +413,10 @@ const initFilters = () => {
                         <InputText id="harga_satuan" type="number" required="true" v-model="harga_satuan" placeholder="Masukkan dalam Rupiah" />
                     </div>
                     <div class="field">
+                        <label for="biaya_telepon">Biaya Pemesanan  (Rp.)</label>
+                        <InputText id="biaya_telepon" type="number" required="true" v-model="biaya_telepon" placeholder="Masukkan dalam Rupiah" />
+                    </div>
+                    <!-- <div class="field">
                         <label for="biaya_telepon">Biaya Telepon  (Rp.)</label>
                         <InputText id="biaya_telepon" type="number" required="true" v-model="biaya_telepon" placeholder="Masukkan dalam Rupiah" />
                     </div>
@@ -414,7 +427,7 @@ const initFilters = () => {
                     <div class="field">
                         <label for="biaya_transportasi">Biaya Transportasi (Rp.)</label>
                         <InputText id="biaya_transportasi" type="number" required="true" v-model="biaya_transportasi" placeholder="Masukkan dalam Rupiah" />
-                    </div>
+                    </div> -->
                     <div class="field">
                         <label for="tanggal_pemesanan">Tanggal</label>
                         <Calendar inputId="tanggal_pemesanan" v-model="tanggal_pemesanan"></Calendar>
