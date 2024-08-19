@@ -173,10 +173,10 @@ const getBarangs = async () => {
     try {
         const response = await axiosInstance.get(`/barangs`);
         listBarang.value = response.data.barang;
-        console.log("Response data barang:", response.data.barang);
+        console.log("Response data bahan baku:", response.data.barang);
     } catch (error) {
-        console.error('Error fetching barang:', error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch list barang', life: 3000 });
+        console.error('Error fetching bahan baku:', error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch list bahan baku', life: 3000 });
     }
 };
 
@@ -216,7 +216,7 @@ const initFilters = () => {
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5 class="font-bold">Data Penjualan Barang</h5>
+                <h5 class="font-bold">Data Penjualan Bahan Baku</h5>
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
@@ -253,7 +253,7 @@ const initFilters = () => {
                             {{ slotProps.data.id_user }}
                         </template>
                     </Column> -->
-                    <Column field="barang_nama" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="barang_nama" header="Nama Bahan Baku" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.barang_nama }}
                         </template>
@@ -278,7 +278,7 @@ const initFilters = () => {
                             {{ formatDate(slotProps.data.tanggal_penjualan) }}
                         </template>
                     </Column>
-                    <Column field="supplier_nama" header="Supplier Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="supplier_nama" header="Perusahaan Supplier Bahan Baku" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_nama }}
                         </template>
@@ -314,12 +314,12 @@ const initFilters = () => {
 
                 <Dialog v-model:visible="createPenjualanDialog" :style="{ width: '900px' }" header="Create New Penjualan" :modal="true" class="p-fluid">
                     <div class="field">
-                        <label for="supplier">Pilih Barang</label>
-                        <AutoComplete placeholder="Search barang..." id="dd" :dropdown="true" v-model="barang" :suggestions="autoFilteredValueBarangs" @complete="searchBarangs($event)" field="nama_barang" />
+                        <label for="supplier">Pilih Bahan Baku</label>
+                        <AutoComplete placeholder="Search bahan baku..." id="dd" :dropdown="true" v-model="barang" :suggestions="autoFilteredValueBarangs" @complete="searchBarangs($event)" field="nama_barang" />
                     </div>
                     <div class="field">
                         <label for="kuantitas">Kuantitas (qty)</label>
-                        <InputText id="kuantitas" type="number" required="true" v-model="kuantitas" placeholder="jumlah barang" />
+                        <InputText id="kuantitas" type="number" required="true" v-model="kuantitas" placeholder="jumlah bahan baku" />
                     </div>
                     <div class="field">
                         <label for="harga_satuan">Harga Satuan  (Rp.)</label>
@@ -337,12 +337,12 @@ const initFilters = () => {
 
                 <Dialog v-model:visible="updatePenjualanDialog" :style="{ width: '450px' }" header="Update Penjualan" :modal="true" class="p-fluid"  >
                     <div class="field">
-                        <label for="supplier">Pilih Barang</label>
-                        <AutoComplete placeholder="Search barang..." id="dd" :dropdown="true" v-model="barang" :suggestions="autoFilteredValueBarangs" @complete="searchBarangs($event)" field="nama_barang" />
+                        <label for="supplier">Pilih Bahan Baku</label>
+                        <AutoComplete placeholder="Search bahan baku..." id="dd" :dropdown="true" v-model="barang" :suggestions="autoFilteredValueBarangs" @complete="searchBarangs($event)" field="nama_barang" />
                     </div>
                     <div class="field">
                         <label for="kuantitas">Kuantitas (qty)</label>
-                        <InputText id="kuantitas" type="number" required="true" v-model="kuantitas" placeholder="jumlah barang" />
+                        <InputText id="kuantitas" type="number" required="true" v-model="kuantitas" placeholder="jumlah bahan baku" />
                     </div>
                     <div class="field">
                         <label for="harga_satuan">Harga Satuan  (Rp.)</label>

@@ -71,17 +71,17 @@ const exportData = () => {
         [`Start Date: `, `${startDate.value.toISOString().split('T')[0]}`, '', '', ''],
         [`End Date: `, `${endDate.value.toISOString().split('T')[0]}`, '', '', ''],
         [], // Empty row for spacing
-        ['ID Barang', 'Nama Barang', 'Total Pemesanan', 'Total Penjualan', 'Stock Barang'], // Column headers
+        ['ID Bahan Baku', 'Nama Bahan Baku', 'Total Pemesanan', 'Total Penjualan', 'Stock Bahan Baku'], // Column headers
         ...formattedData // Add stock data
     ];
 
     // Create a worksheet and a workbook
     const ws = utils.aoa_to_sheet(headerData);
     const wb = utils.book_new();
-    utils.book_append_sheet(wb, ws, 'Stock Barang');
+    utils.book_append_sheet(wb, ws, 'Stock Bahan Baku');
 
     // Create an Excel file and trigger download
-    writeFile(wb, `Stock_Barang_${startDate.value.toISOString().split('T')[0]}_${endDate.value.toISOString().split('T')[0]}.xlsx`);
+    writeFile(wb, `Stock_Bahan_Baku_${startDate.value.toISOString().split('T')[0]}_${endDate.value.toISOString().split('T')[0]}.xlsx`);
 };
 
 
@@ -99,7 +99,7 @@ const initFilters = () => {
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5 class="font-bold">Stock Barang</h5>
+                <h5 class="font-bold">Stock Bahan Baku</h5>
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2 formgroup-inline">
@@ -118,7 +118,7 @@ const initFilters = () => {
                                 <label for="end_date">End Date</label>
                                 <Calendar inputId="end_date" v-model="endDate"></Calendar>
                             </div>
-                            <Button label="Cari Stock Barang " icon="pi pi-search" class="mr-2" severity="success" @click="getStocks" />
+                            <Button label="Cari Stock Bahan Baku " icon="pi pi-search" class="mr-2" severity="success" @click="getStocks" />
                         </div>
                     </template>
                 </Toolbar>
@@ -137,7 +137,7 @@ const initFilters = () => {
                 >
                     <template #header>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Manage Stock Barang</h5>
+                            <h5 class="m-0">Manage Stock Bahan Baku</h5>
                             <IconField iconPosition="left" class="block mt-2 md:mt-0">
                                 <InputIcon class="pi pi-search" />
                                 <InputText class="w-full sm:w-auto" v-model="filters['global'].value" placeholder="Search..." />
@@ -151,7 +151,7 @@ const initFilters = () => {
                             {{ slotProps.data.id_barang }}
                         </template>
                     </Column> -->
-                    <Column field="nama_barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="nama_barang" header="Nama Bahan Baku" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama_barang }}
                         </template>
@@ -166,7 +166,7 @@ const initFilters = () => {
                             {{ slotProps.data.total_kuantitas_penjualan }}
                         </template>
                     </Column>
-                    <Column field="stok_barang" header="Stock Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="stok_barang" header="Stock Bahan Baku" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.stok_barang }}
                         </template>

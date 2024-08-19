@@ -195,16 +195,16 @@ const initFilters = () => {
                     </template>
 
                     <Column selectionMode="multiple" headerStyle="width: 10rem"></Column>
-                    <Column field="nama" header="Nama" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="nama" header="Perusahaan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama }}
                         </template>
                     </Column>
-                    <Column field="perusahaan" header="Perusahaan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <!-- <Column field="perusahaan" header="Perusahaan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.perusahaan }}
                         </template>
-                    </Column>
+                    </Column> -->
                     <Column field="kontak" header="Kontak" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.kontak }}
@@ -246,13 +246,13 @@ const initFilters = () => {
 
                 <Dialog v-model:visible="createSupplierDialog" :style="{ width: '450px' }" header="Create New Supplier" :modal="true" class="p-fluid">
                     <div class="field">
-                        <label for="description">Nama</label>
-                        <InputText id="nama" type="text" required="true" v-model="nama" placeholder="Nama Supplier" />
+                        <label for="description">Perusahaan</label>
+                        <InputText id="nama" type="text" required="true" v-model="nama" placeholder="Perusahaan Supplier" />
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                         <label for="description">Perusahaan</label>
                         <InputText id="perusahaan" type="text" required="true" v-model="perusahaan" placeholder="Perusahaan Supplier" />
-                    </div>
+                    </div> -->
                     <div class="field">
                         <label for="description">kontak</label>
                         <InputText id="kontak" type="text" required="true" v-model="kontak"  placeholder="Kontak Supplier"/>
@@ -271,13 +271,13 @@ const initFilters = () => {
 
                     <div class="card">
                         <div class="field">
-                            <label for="nama">Nama</label>
+                            <label for="nama">Perusahaan</label>
                             <InputText id="nama" v-model="nama" required="true" autofocus  />
                         </div>
-                        <div class="field">
+                        <!-- <div class="field">
                             <label for="perusahaan">Perusahaan</label>
                             <InputText id="perusahaan" v-model="perusahaan" required="true" autofocus  />
-                        </div>
+                        </div> -->
                         <div class="field">
                             <label for="kontak">Kontak</label>
                             <InputText id="kontak" v-model="kontak" required="true" autofocus  />

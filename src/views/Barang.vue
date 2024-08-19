@@ -50,8 +50,8 @@ const getBarangs = async () => {
         console.log("Response data:", response.data.barang);
         loadData.value = false;
     } catch (error) {
-        console.error('Error fetching barang:', error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch list barang', life: 3000 });
+        console.error('Error fetching bahan baku:', error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to fetch list bahan baku', life: 3000 });
         loadData.value = false;
     }
 };
@@ -62,7 +62,7 @@ const confirmDeleteBarang = (data) => {
 };
 
 const deleteBarang = async () => {
-    console.log("id barang: ", barang.value.id);
+    console.log("id bahan baku: ", barang.value.id);
 
     try {
         const response = await axiosInstance.delete(`/barang?id=${barang.value.id}`);
@@ -72,9 +72,9 @@ const deleteBarang = async () => {
         toast.add({ severity: 'success', summary: 'Success', detail: response.data.message + ' ' + barang.value.nama_barang, life: 3000 });
         getBarangs();
     } catch (error) {
-        console.log("Error Delete Barang: ", error);
+        console.log("Error Delete Bahan Baku: ", error);
         deleteBarangDialog.value = false;
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete barang ' + barang.value.nama_barang, life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete bahan baku ' + barang.value.nama_barang, life: 3000 });
     }
 };
 
@@ -90,7 +90,7 @@ const createBarang = async () => {
             nama_barang: nama.value,
             id_supplier: supplier.value.id
         });
-        console.log("Barang created: ", response.data);
+        console.log("Bahan Baku created: ", response.data);
         toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
         nama.value = '';
         supplier.value = '';
@@ -98,8 +98,8 @@ const createBarang = async () => {
         createBarangDialog.value = false;
         getBarangs();
     } catch (error) {
-        console.log("Error creating barang: ", error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to create barang', life: 3000 });
+        console.log("Error creating bahan baku: ", error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to create bahan baku', life: 3000 });
         createBarangDialog.value = false;
     }
 };
@@ -129,14 +129,14 @@ const saveBarang = async () => {
                 nama_barang: nama.value,
                 id_supplier: supplier.value.id
             });
-            console.log("barang updated: ", response.data);
+            console.log("bahan baku updated: ", response.data);
             toast.add({ severity: 'success', summary: 'Success', detail: response.data.message, life: 3000 });
             updateBarangDialog.value = false;
             supplier.value = '';
             getBarangs();
         } catch (error) {
-            console.log("Error updating barang: ", error);
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update barang', life: 3000 });
+            console.log("Error updating bahan baku: ", error);
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update bahan baku', life: 3000 });
             updateBarangDialog.value = false;
         }
     } else {
@@ -186,7 +186,7 @@ const initFilters = () => {
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5 class="font-bold">Barang</h5>
+                <h5 class="font-bold">Bahan Baku</h5>
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
@@ -205,11 +205,11 @@ const initFilters = () => {
                     :filters="filters"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Barang"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Bahan Baku"
                 >
                     <template #header>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Manage Barang</h5>
+                            <h5 class="m-0">Manage Bahan Baku</h5>
                             <IconField iconPosition="left" class="block mt-2 md:mt-0">
                                 <InputIcon class="pi pi-search" />
                                 <InputText class="w-full sm:w-auto" v-model="filters['global'].value" placeholder="Search..." />
@@ -218,21 +218,21 @@ const initFilters = () => {
                     </template>
 
                     <Column selectionMode="multiple" headerStyle="width: 10rem"></Column>
-                    <Column field="nama_barang" header="Nama Barang" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="nama_barang" header="Nama Bahan Baku" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.nama_barang }}
                         </template>
                     </Column>
-                    <Column field="supplier_nama" header="Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="supplier_nama" header="Perusahaan Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_nama }}
                         </template>
                     </Column>
-                    <Column field="supplier_perusahaan" header="Perusahaan Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <!-- <Column field="supplier_perusahaan" header="Perusahaan Supplier" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.supplier_perusahaan }}
                         </template>
-                    </Column>
+                    </Column> -->
                     <Column headerStyle="min-width:10rem;">
                         <template #body="slotProps">
                             <Button icon="pi pi-pencil" class="mr-2 p-button-warning mr-2" severity="success" rounded @click="editBarang(slotProps.data)" />
@@ -252,7 +252,7 @@ const initFilters = () => {
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                         <span v-if="barang"
-                            >Are you sure you want to delete barang <b>{{ barang.nama_barang }}</b
+                            >Are you sure you want to delete bahan baku <b>{{ barang.nama_barang }}</b
                             >?</span
                         >
                     </div>
@@ -262,10 +262,10 @@ const initFilters = () => {
                     </template>
                 </Dialog>
 
-                <Dialog v-model:visible="createBarangDialog" :style="{ width: '450px' }" header="Create New Barang" :modal="true" class="p-fluid">
+                <Dialog v-model:visible="createBarangDialog" :style="{ width: '450px' }" header="Create New Bahan Baku" :modal="true" class="p-fluid">
                     <div class="field">
-                        <label for="nama">Nama Barang</label>
-                        <InputText id="nama" type="text" required="true" v-model="nama" placeholder="Nama barang" />
+                        <label for="nama">Nama Bahan Baku</label>
+                        <InputText id="nama" type="text" required="true" v-model="nama" placeholder="Nama bahan baku" />
                     </div>
                     <div class="field">
                         <label for="supplier">Supplier</label>

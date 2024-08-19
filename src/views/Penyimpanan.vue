@@ -162,7 +162,7 @@ const initFilters = () => {
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5 class="font-bold">Biaya Penyimpanan Barang</h5>
+                <h5 class="font-bold">Biaya Penyimpanan Bahan Baku</h5>
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
