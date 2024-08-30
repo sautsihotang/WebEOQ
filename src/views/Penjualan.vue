@@ -239,7 +239,7 @@ const initFilters = () => {
                 >
                     <template #header>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Manage Penjualan</h5>
+                            <h5 class="m-0">Manage Pemakaian</h5>
                             <IconField iconPosition="left" class="block mt-2 md:mt-0">
                                 <InputIcon class="pi pi-search" />
                                 <InputText class="w-full sm:w-auto" v-model="filters['global'].value" placeholder="Search..." />
@@ -273,7 +273,7 @@ const initFilters = () => {
                             {{ "Rp."+slotProps.data.total_harga }}
                         </template>
                     </Column>
-                    <Column field="tanggal_penjualan" header="Tanggal penjualan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="tanggal_penjualan" header="Tanggal Pemakaian" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ formatDate(slotProps.data.tanggal_penjualan) }}
                         </template>
@@ -302,7 +302,7 @@ const initFilters = () => {
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                         <span v-if="penjualan"
-                            >Are you sure you want to delete penjualan <b>{{ penjualan.id }}</b
+                            >Are you sure you want to delete pemakaian <b>{{ penjualan.id }}</b
                             >?</span
                         >
                     </div>

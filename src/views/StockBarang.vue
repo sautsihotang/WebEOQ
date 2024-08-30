@@ -71,7 +71,7 @@ const exportData = () => {
         [`Start Date: `, `${startDate.value.toISOString().split('T')[0]}`, '', '', ''],
         [`End Date: `, `${endDate.value.toISOString().split('T')[0]}`, '', '', ''],
         [], // Empty row for spacing
-        ['ID Bahan Baku', 'Nama Bahan Baku', 'Total Pemesanan', 'Total Penjualan', 'Stock Bahan Baku'], // Column headers
+        ['ID Bahan Baku', 'Nama Bahan Baku', 'Total Pemesanan', 'Total Pemakaian', 'Stock Bahan Baku'], // Column headers
         ...formattedData // Add stock data
     ];
 
@@ -161,7 +161,7 @@ const initFilters = () => {
                             {{ slotProps.data.total_kuantitas_pemesanan }}
                         </template>
                     </Column>
-                    <Column field="total_kuantitas_penjualan" header="Total Penjualan" :sortable="true" headerStyle="width:15%; min-width:10rem;">
+                    <Column field="total_kuantitas_penjualan" header="Total Pemakaian" :sortable="true" headerStyle="width:15%; min-width:10rem;">
                         <template #body="slotProps">
                             {{ slotProps.data.total_kuantitas_penjualan }}
                         </template>

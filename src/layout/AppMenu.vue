@@ -16,7 +16,7 @@ const model = ref([
             { label: 'Bahan Baku', icon: 'pi pi-fw pi-th-large', to: '/barang' },
             { label: 'Stock Bahan Baku', icon: 'pi pi-fw pi-sitemap', to: '/stock' },
             { label: 'Pemesanan', icon: 'pi pi-fw pi-shopping-cart', to: '/pemesanan' },
-            { label: 'Penjualan', icon: 'pi pi-fw pi-shopping-bag', to: '/penjualan' },
+            { label: 'Pemakaian', icon: 'pi pi-fw pi-shopping-bag', to: '/penjualan' },
             { label: 'Penyimpanan', icon: 'pi pi-fw pi-shield', to: '/penyimpanan' },
             { label: 'Supplier', icon: 'pi pi-fw pi-truck', to: '/supplier' },
         ]
